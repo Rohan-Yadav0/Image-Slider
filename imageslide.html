@@ -1,0 +1,141 @@
+
+<html >
+<head>
+    <meta name="viewport" content="width=device-width">
+    <title>   Image Slider   </title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: rgba(67, 0, 0, 0.304);
+        }
+
+        .container {
+            position: relative;
+            width: 200%;
+            max-width: 800px;
+            height: 70vh;
+            margin: auto;
+            overflow: hidden;
+            box-shadow:  20px;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+            margin: auto; 
+        }
+
+        img {
+            width: 100%;
+            max-width: 200%;
+            max-height: 200vh; 
+            object-fit: contain; 
+        }
+
+        .Title {
+            position: absolute;
+            top: 10px;
+            text-align: match-parent;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+        }
+
+        .navigation {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .navigation-button {
+            cursor: pointer;
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 10px;
+        }
+
+        .playpause-button {
+            cursor: pointer;
+            background: #242424;
+            color: #f7f0f0;
+            border: none;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="slider">
+        <div class="slide">
+            <img src="image3.jpg" alt="Night Sky">
+            <div class="Title">Night Sky</div>
+        </div>
+        <div class="slide">
+            <img src="image4.jpg" alt="Sunrise">
+            <div class="Title">Sunrise </div>
+        </div>
+      
+    </div>
+
+    <div class="navigation">
+        <button class="navigation-button" onclick="prevSlide()">Prev</button>
+        <button class="playpause-button" onclick="togglePlayPause()">Play/Pause</button>
+        <button class="navigation-button" onclick="nextSlide()">Next</button>
+    </div>
+</div>
+
+<script>
+    let currIndex = 0;
+    let isPlaying = true;
+    const intervalTime = 10000;
+
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    function updateSlider() {
+        const transformValue = -currIndex * 100 + '%';
+        document.querySelector('.slider').style.transform = 'translateX(' + transformValue + ')';
+    }
+
+    function nextSlide() {
+        currIndex = (currIndex + 1) % totalSlides;
+        updateSlider();
+    }
+
+    function prevSlide() {
+        currIndex = (currIndex - 1 + totalSlides) % totalSlides;
+        updateSlider();
+    }
+
+    function togglePlayPause() {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+            autoSlide();
+        }
+    }
+
+    function autoSlide() {
+        if (isPlaying) {
+            nextSlide();
+            setTimeout(autoSlide, intervalTime);
+        }
+    }
+
+    autoSlide();
+</script>
+
+</body>
+</html>
